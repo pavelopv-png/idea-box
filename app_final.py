@@ -1,6 +1,11 @@
+import os
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 from fastapi import FastAPI
 
-app = FastAPI(title="Копилка продуктовых идей", version="1.0.0")
+app = FastAPI(title=os.getenv("APP_NAME", "Копилка продуктовых идей"), version="1.0.0")
 
 
 @app.get("/health")
@@ -34,6 +39,7 @@ def create_idea(data: IdeaCreate):
         "description": data.description,
     }
     ideas.append(idea)
+    logger.info("Created idea id=%s", idea["id"])
     return idea
 
 
