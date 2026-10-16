@@ -107,3 +107,19 @@ def home():
 </body>
 </html>
 """
+
+
+from fastapi import HTTPException
+
+
+@app.get("/ideas")
+def list_ideas():
+    return ideas
+
+
+@app.get("/ideas/{idea_id}")
+def get_idea(idea_id: int):
+    for idea in ideas:
+        if idea["id"] == idea_id:
+            return idea
+    raise HTTPException(status_code=404, detail="Идея не найдена")
